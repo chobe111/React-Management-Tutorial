@@ -1,14 +1,26 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import Customer from './components/Customer';
 import './App.css';
 
-class App extends Component {
+const customer={
+  'name':'조명기',
+  'birthday':'980719',
+  'gender':'남자',
+  'job':'대학생'
+
+}
+
+class App extends Component {//웹문서에서 보여지게 될 최소단위
   render() {
     return (
-      <div className="gray-background">
-        <img src={logo} lat="logo"/>
-        <h2>Let`s develop management System!</h2>        
-      </div>
+      <Customer
+        name={customer.name}
+        birthday={customer.birthday}
+        gender={customer.gender}
+        job={customer.job}
+  
+      />
     );
   }
 }
