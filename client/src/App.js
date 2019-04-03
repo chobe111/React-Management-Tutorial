@@ -19,38 +19,24 @@ const styles= theme => ({
   table: {
     minWidth: 1080//화면의 크기가 줄어들었을때도 전체의 1080픽셀만큼은 테이블의 크기가 자리잡아 가로 스크롤 바가 생기가됨.
   }
-})
-const customers=[
- {
-  'id':1,
-  'image' : "https://placeimg.com/64/64/1",
-  'name':'조명기',
-  'birthday':'980719',
-  'gender':'남자',
-  'job':'대학생'
-  
-},
-{
-  'id':2,
-  'image' : "https://placeimg.com/64/64/2",
-  'name':'파커',
-  'birthday':'150819',
-  'gender':'남자',
-  'job':'강아지'  
-},
-{
-  'id':3,
-  'image' : "https://placeimg.com/64/64/3",
-  'name':'유금석',
-  'birthday':'980009',
-  'gender':'남자',
-  'job':'군인'  
-}
-
-]
-
+});
 
 class App extends Component {//웹문서에서 보여지게 될 최소단위
+
+  state={
+    customers:""
+  }
+
+  componentDidMount(){
+    this.callApi()
+      .then(res=>this.setState({customers:res}))
+      .catch(err=>console.log(err));
+  }
+  callApi=async()=>{
+    const response= await fetch('/api/customers');
+    const body=await response.json();
+    return body;
+  }
   render() {
     const { classes }=this.props;
     return (
@@ -68,14 +54,11 @@ class App extends Component {//웹문서에서 보여지게 될 최소단위
           </TableRow>
         </TableHead>
         <TableBody>
-        {
-        customers.map(c=>{
-          return <Customer  key={c.id}  id={c.id}  image={c.image} name={c.name}  birthday={c.birthday} gender={c.gender} job={c.job}
-          />
-        })
-      }
+        {this.state.customers ? this.state.customers.map(c=>{
+          return ( <Customer  key={c.id}  id={c.id}  image={c.image} name={c.name}  birthday={c.birthday} gender={c.gender} job={c.job}
+          />);
+        }): ""}
         </TableBody>
-
         </Table> 
         </Paper>  
       
